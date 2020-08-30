@@ -8,6 +8,8 @@ class Router {
     developer.log(msg, name: 'router');
   }
 
+  Router._internal();
+
   NavigatorState _navigatorState;
   static Router _instance;
   bool initialised = false;
@@ -18,12 +20,14 @@ class Router {
     }
   }
 
+
   factory Router() {
     if (_instance == null) {
-      _instance = Router();
+      _instance = Router._internal();
     }
     return _instance;
   }
+
 
   init(NavigatorState navigatorState) {
     if (initialised) {

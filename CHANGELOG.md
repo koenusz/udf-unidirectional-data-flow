@@ -13,3 +13,7 @@
 
 * Router removed arguments
 * Router improved with factory method
+
+## [0.0.4] - 30-08-2020
+
+* Router construction fix
