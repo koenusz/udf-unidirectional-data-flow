@@ -7,3 +7,9 @@
 ## [0.0.2] - 30-08-2020
 
 * ViewNotifier to remove the dependency on the provider package
+
+
+## [0.0.3] - 30-08-2020
+
+* Router removed arguments
+* Router improved with factory method

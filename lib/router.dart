@@ -3,8 +3,6 @@ import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-
-
 class Router {
   logger(String msg) {
     developer.log(msg, name: 'router');
@@ -14,19 +12,17 @@ class Router {
   static Router _instance;
   bool initialised = false;
 
-  static Router instance() => _instance;
-
   static mock(routerMock) {
     if (kDebugMode) {
       _instance = routerMock;
     }
   }
 
-  Router() {
-    if (_instance != null) {
-      throw Exception("there can be only one router");
+  factory Router() {
+    if (_instance == null) {
+      _instance = Router();
     }
-    _instance = this;
+    return _instance;
   }
 
   init(NavigatorState navigatorState) {
@@ -37,9 +33,9 @@ class Router {
     initialised = true;
   }
 
-  void navigateTo({String routeName, ScreenArguments arguments}) {
+  void navigateTo({String routeName}) {
     logger("navigating to: $routeName");
-    _navigatorState.pushNamed(routeName, arguments: arguments);
+    _navigatorState.pushNamed(routeName);
   }
 
   void back() {
@@ -47,5 +43,3 @@ class Router {
     _navigatorState.pop();
   }
 }
-
-abstract class ScreenArguments {}
