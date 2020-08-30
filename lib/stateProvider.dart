@@ -14,7 +14,9 @@ abstract class StateProvider<T> with ChangeNotifier {
 
   static Map<Type, StateProvider> _instances = {};
 
-  static StateProvider instance(Type type) => _instances[type];
+  static StateProvider instance(Type type) =>
+      _instances[type] ??
+      (throw "No instance of type $type, make sure you create the StateProvider object before calling this method");
 
   bool _initialised = false;
 
@@ -24,7 +26,7 @@ abstract class StateProvider<T> with ChangeNotifier {
 
   T _model;
 
-  T get() => _model;
+  T model() => _model;
 
   final Queue<Message> _messages = Queue();
 

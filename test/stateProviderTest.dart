@@ -7,11 +7,11 @@ void main() {
     var provider = TestModelProvider.init();
 
     provider.receive(AddTestValue(3));
-    var model = provider.get();
+    var model = provider.model();
     expect(model.value, equals(8));
 
     provider.receive(SubstractTestValue(2));
-    model = provider.get();
+    model = provider.model();
     expect(model.value, equals(6));
   });
 
@@ -19,7 +19,7 @@ void main() {
     var provider = TestModelProvider.init();
 
     provider.receive(Stacked());
-    var model = provider.get();
+    var model = provider.model();
     expect(model.value, equals(10));
     
   });
@@ -28,7 +28,7 @@ void main() {
     var provider = TestModelProvider.init();
 
     provider.receive(StackedOrder());
-    var model = provider.get();
+    var model = provider.model();
     expect(model.value, equals(27));
 
   });
@@ -90,8 +90,8 @@ class TimesValue extends Message<TestModel, TimesValue> {
 
   @override
   handle(StateProvider provider, TimesValue msg, model) {
-    int newval = model.value * msg.value;
-    return model.copyWith(value: newval);
+    int newVal = model.value * msg.value;
+    return model.copyWith(value: newVal);
   }
 }
 
@@ -102,8 +102,8 @@ class AddTestValue extends Message<TestModel, AddTestValue> {
 
   @override
   handle(StateProvider provider, AddTestValue msg, model) {
-    int newval = model.value + msg.value;
-    return model.copyWith(value: newval);
+    int newVal = model.value + msg.value;
+    return model.copyWith(value: newVal);
   }
 }
 
@@ -114,7 +114,7 @@ class SubstractTestValue extends Message<TestModel, SubstractTestValue> {
 
   @override
   handle(StateProvider provider, SubstractTestValue msg, model) {
-    int newval = model.value - msg.value;
-    return model.copyWith(value: newval);
+    int newVal = model.value - msg.value;
+    return model.copyWith(value: newVal);
   }
 }
