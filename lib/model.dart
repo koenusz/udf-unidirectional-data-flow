@@ -1,13 +1,13 @@
-class Model {
+class Model<T extends Model<T>> {
   static Map<Type, Model> _instances = {};
 
   Model._internal();
 
-  factory Model(Type type) {
-    if (_instances.containsKey(type)) {
-      return _instances[type];
+  factory Model() {
+    if (_instances.containsKey(T.runtimeType)) {
+      return _instances[T.runtimeType];
     } else {
-      var model = Model._internal();
+      var model = Model<T>._internal();
       _instances[model.runtimeType] = model;
       return model;
     }
