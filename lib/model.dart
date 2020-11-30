@@ -1,15 +1,17 @@
 class Model<T extends Model<T>> {
   static Map<Type, Model> _instances = {};
 
-  Model._internal();
-
-  factory Model() {
-    if (_instances.containsKey(T.runtimeType)) {
-      return _instances[T.runtimeType];
+  static modelOf(Type type) {
+    if (_instances.containsKey(type)) {
+      return _instances[type];
     } else {
-      var model = Model<T>._internal();
-      _instances[model.runtimeType] = model;
-      return model;
+      throw Exception("model if type: $type is null");
     }
+  }
+
+  /// Updating the model requires creating new instances of it since it should be immutable by design. Therefore the
+  /// Model needs a generative constructor and not a factory.
+  Model() {
+    _instances[T.runtimeType] = this;
   }
 }

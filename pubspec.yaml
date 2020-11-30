@@ -1,6 +1,6 @@
 name: udf
 description: A package to implement a unidirectional data flow in your app.
-version: 0.0.5
+version: 0.0.7
 homepage: https://github.com/koenusz/udf
 
 environment:
