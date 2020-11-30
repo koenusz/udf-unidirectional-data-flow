@@ -1,14 +1,15 @@
 class Model {
   static Map<Type, Model> _instances = {};
 
-  static Model modelOf(Type type) {
-    if (!_instances.containsKey(type)) {
-      throw Exception("no instance of $type");
-    }
-    return _instances[type];
-  }
+  Model._internal();
 
-  Model() {
-    _instances[this.runtimeType] = this;
+  factory Model(Type type) {
+    if (_instances.containsKey(type)) {
+      return _instances[type];
+    } else {
+      var model = Model._internal();
+      _instances[model.runtimeType] = model;
+      return model;
+    }
   }
 }

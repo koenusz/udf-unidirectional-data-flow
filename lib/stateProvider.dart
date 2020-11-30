@@ -1,20 +1,23 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
 abstract class StateProvider<T> with ChangeNotifier {
   logger(String msg) {
-    developer.log(msg, name: this.runtimeType.toString());
+    developer.log(msg, name: this.runtimeType.toString() + "::" + this.rand.toString());
   }
 
   logError(String msg, Object error) {
-    developer.log(msg, name: this.runtimeType.toString(), error: error);
+    developer.log(msg, name: this.runtimeType.toString() + "::" + this.rand.toString(), error: error);
   }
+
+  final rand = Random().nextInt(10000);
 
   static Map<Type, StateProvider> _instances = {};
 
-  static StateProvider instance(Type type) =>
+  static StateProvider providerOf(Type type) =>
       _instances[type] ??
       (throw "No instance of type $type, make sure you create the StateProvider object before calling this method");
 
@@ -74,7 +77,12 @@ abstract class StateProvider<T> with ChangeNotifier {
     var msgToResolve = _messages.first;
     logger("resolving: $msgToResolve");
     _messages.removeFirst();
-    _model = msgToResolve.handle(this, msgToResolve, _model);
+    try {
+      _model = msgToResolve.handle(this, msgToResolve, _model);
+      logger("handling done");
+    } catch (e) {
+      logError("handling error", e);
+    }
   }
 }
 

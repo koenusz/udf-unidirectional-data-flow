@@ -17,3 +17,7 @@
 ## [0.0.4] - 30-08-2020
 
 * Router construction fix
+
+## [0.0.5] - 30-11-2020
+
+* Model construction with a factory method
