@@ -29,3 +29,7 @@
 ## [0.0.6] - 30-11-2020
 
 * Model needs a generative constructor
+
+## [0.0.7] - 30-11-2020
+
+* Model is abstract

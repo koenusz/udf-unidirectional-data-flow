@@ -1,4 +1,4 @@
-class Model<T extends Model<T>> {
+abstract class Model<T extends Model<T>> {
   static Map<Type, Model> _instances = {};
 
   static modelOf(Type type) {
