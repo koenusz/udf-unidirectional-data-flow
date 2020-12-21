@@ -14,4 +14,6 @@ abstract class Model<T extends Model<T>> {
   Model() {
     _instances[T.runtimeType] = this;
   }
+
+  T copyWith();
 }

@@ -33,3 +33,11 @@
 ## [0.0.7] - 30-11-2020
 
 * Model is abstract
+
+## [0.0.8] - 21-12-2020
+
+* make sendWhenCompletes more type safe
+* removed viewNotifier.of - use StateProvider.providerOf
+* added init abstract method on the model
+* added copyWith abstract method on the model
+* added a bit more documentation
