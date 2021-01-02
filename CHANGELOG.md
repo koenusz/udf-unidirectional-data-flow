@@ -41,3 +41,7 @@
 * added init abstract method on the model
 * added copyWith abstract method on the model
 * added a bit more documentation
+
+## [0.0.9] - 02-01-2021
+
+* removed viewNotifier.of - The viewnotifier needs to be used otherwise the screen does not get redrawn.

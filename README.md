@@ -190,12 +190,14 @@ This is done by calling the receive method on the stateProvider. The receive met
 object and executes the handle method on the message data provided. Messages are resolved in the
 order in which they are received.
 
+The Provider needs to be retrieved form the ViewNotifier in order to trigger re-rendering.
+
 example:
 ```
     class LoginView extends StatelessWidget {
       @override
       Widget build(BuildContext context) {
-        var provider = StateProvider.providerOf(LoginModelProvider);
+        var provider = ViewNotifier.of(LoginModelProvider);
         var model = provider.model();
 
         return Scaffold(
