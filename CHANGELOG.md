@@ -44,4 +44,9 @@
 
 ## [0.0.9] - 02-01-2021
 
-* removed viewNotifier.of - The viewnotifier needs to be used otherwise the screen does not get redrawn.
+* removed viewNotifier.of - The viewnotifier needs to be used otherwise the screen does not get
+    redrawn.
+
+## [0.0.9] - 02-01-2021
+
+* added method to the router to reset the navigation stack.

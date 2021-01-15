@@ -20,14 +20,12 @@ class Router {
     }
   }
 
-
   factory Router() {
     if (_instance == null) {
       _instance = Router._internal();
     }
     return _instance;
   }
-
 
   init(NavigatorState navigatorState) {
     if (initialised) {
@@ -45,5 +43,10 @@ class Router {
   void back() {
     logger("popping of");
     _navigatorState.pop();
+  }
+
+  /// Remove all from the navigation stack and go to route.
+  void removeAllAndNavigateTo(String routeName) {
+    _navigatorState.pushNamedAndRemoveUntil(routeName, (Route<dynamic> route) => false);
   }
 }
