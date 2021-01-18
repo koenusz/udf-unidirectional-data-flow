@@ -7,6 +7,8 @@ languages and platform.
 
 It is important to initialise your providers and model before you run your app, otherwise there
 might be nullpointers.
+
+example:
 ```
     void main() {
       initAppState();
@@ -14,8 +16,8 @@ might be nullpointers.
     }
 
     void initAppState() {
-      LoginModelProvider(LoginModel.init());
-      MenuModelProvider(MenuModel.init());
+      LoginModelProvider.init());
+      MenuModelProvider.init());
     }
 ```
 
@@ -107,6 +109,7 @@ bonus: adding a proper toString override will make debugging your app a lot easi
 Changes made to the model most of the time require your app to render these changes. To enable this
 you need to place a viewNotifier in your widget tree.
 
+example:
 ```
   @override
   Widget build(BuildContext context) {
@@ -119,6 +122,7 @@ you need to place a viewNotifier in your widget tree.
 
 This enables the using data in your views like this:
 
+example
 ```
     class MenuView extends StatelessWidget {
       @override
@@ -177,9 +181,27 @@ Managing class that handles Messages and updates your Model.
 There is not much you need to do to instantiate the provider. It basically only needs to know its
 own name and what model it will use.
 
+It is recommended though that you add the following:
+    - An init factory method where you instantiate your model's initial state.
+    - A getModel static method to get the current state of the model.
+    - A static send method to be able to send messages to the provider.
+
+These are not strictly needed but it hides some of the boilerplate and keeps your business logic a
+bit cleaner.
+
+example:
 ```
     class LoginModelProvider extends StateProvider<LoginModel> {
-      LoginModelProvider(LoginModel model) : super(model);
+
+        @Protected
+        LoginModelProvider(LoginModel model) : super(model);
+
+        static send(Message msg) => StateProvider.providerOf(LoginModelProvider).receive(msg);
+
+        static getModel() => StateProvider.providerOf(LoginModelProvider).model();
+
+        factory LoginModelProvider.init() => LoginModelProvider(model: LoginModel(email: "", password: ""));
+
     }
 ```
 
@@ -260,6 +282,7 @@ view is as simple as retrieving the provider related to the view that you want t
 sending it a message. This will never result in re-rendering your current view because the other
 provider is not added to the notifier in your current widget tree.
 
+example:
 ```
     class MenuView extends StatelessWidget {
       @override

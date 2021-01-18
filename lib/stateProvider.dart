@@ -25,8 +25,6 @@ abstract class StateProvider<T> with ChangeNotifier {
 
   bool _resolving = false;
 
-  Type modelType<T>() => T;
-
   T _model;
 
   T model() => _model;
@@ -39,7 +37,7 @@ abstract class StateProvider<T> with ChangeNotifier {
     _model = model;
   }
 
-  StateProvider<T> initMsg(Message msg) {
+  StateProvider<T> initMsg(Message<T> msg) {
     if (!_initialised) {
       _initialised = true;
       return this.receive(msg);
@@ -48,16 +46,20 @@ abstract class StateProvider<T> with ChangeNotifier {
     }
   }
 
-  StateProvider<T> receive(Message msg) {
+  StateProvider<T> receive(Message<T> msg) {
     logger("receiving: $msg");
     _messages.add(msg);
     _startResolving();
     return this;
   }
 
-  StateProvider<T> sendWhenCompletes<FT>(Future<FT> future, Function createMessage, {String errorMessage}) {
-    handle(input) => this.receive(createMessage(input));
-    future.then(handle).catchError((error) => logError(errorMessage ?? "future failed", error));
+  StateProvider<T> sendWhenCompletes<FT>(Future<FT> future, Message<T> Function(FT) onSuccess,
+      {String logMsg, Message<T> Function() onFailure}) {
+    handle(input) => this.receive(onSuccess(input));
+    future.then(handle).catchError((error) => {
+          logError(logMsg ?? "future failed", error),
+          this.receive(onFailure()),
+        });
     return this;
   }
 
@@ -79,7 +81,7 @@ abstract class StateProvider<T> with ChangeNotifier {
     logger("resolving: $msgToResolve");
     _messages.removeFirst();
     try {
-      _model = msgToResolve.handle(this, msgToResolve, _model);
+      _model = msgToResolve.handle(_model);
       logger("handling done");
     } catch (e) {
       logError("handling error", e);
@@ -87,8 +89,6 @@ abstract class StateProvider<T> with ChangeNotifier {
   }
 }
 
-abstract class Message<T, M extends Message<T, M>> {
-  Type modelType<T>() => T;
-
-  T handle(StateProvider<T> provider, M msg, T model);
+abstract class Message<T> {
+  T handle(T model);
 }

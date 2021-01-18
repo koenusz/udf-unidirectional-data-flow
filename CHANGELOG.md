@@ -47,6 +47,13 @@
 * removed viewNotifier.of - The viewnotifier needs to be used otherwise the screen does not get
     redrawn.
 
-## [0.0.9] - 02-01-2021
+## [0.0.10] - 12-01-2021
 
 * added method to the router to reset the navigation stack.
+
+## [0.0.11] - 18-01-2021
+
+* simplified handling method.
+* updated sendWhenCompletes with error message option
+* simplified/improved typing of the message
+* updated the docs to reflect this simplification.

@@ -10,7 +10,7 @@ void main() {
     var model = provider.model();
     expect(model.value, equals(8));
 
-    provider.receive(SubstractTestValue(2));
+    provider.receive(SubtractTestValue(2));
     model = provider.model();
     expect(model.value, equals(6));
   });
@@ -21,7 +21,6 @@ void main() {
     provider.receive(Stacked());
     var model = provider.model();
     expect(model.value, equals(10));
-    
   });
 
   test("handle stacked in the right order ", () async {
@@ -30,13 +29,14 @@ void main() {
     provider.receive(StackedOrder());
     var model = provider.model();
     expect(model.value, equals(27));
-
   });
 }
 
 class TestModelProvider extends StateProvider<TestModel> {
   @protected
   TestModelProvider(TestModel model) : super(model);
+
+  static send(Message msg) => StateProvider.providerOf(TestModelProvider).receive(msg);
 
   factory TestModelProvider.init() => TestModelProvider(TestModel(value: 5));
 }
@@ -53,68 +53,68 @@ class TestModel {
   }
 }
 
-class Stacked extends Message<TestModel, Stacked> {
+class Stacked extends Message<TestModel> {
   Stacked();
 
   @override
-  handle(StateProvider provider, Stacked msg, model) {
-    provider.receive(AddTestValue(1));
-    provider.receive(AddTestValue(1));
-    provider.receive(AddTestValue(1));
-    provider.receive(AddTestValue(1));
-    provider.receive(AddTestValue(1));
+  handle(model) {
+    TestModelProvider.send(AddTestValue(1));
+    TestModelProvider.send(AddTestValue(1));
+    TestModelProvider.send(AddTestValue(1));
+    TestModelProvider.send(AddTestValue(1));
+    TestModelProvider.send(AddTestValue(1));
 
     return model;
   }
 }
 
-class StackedOrder extends Message<TestModel, StackedOrder> {
+class StackedOrder extends Message<TestModel> {
   StackedOrder();
 
   @override
-  handle(StateProvider provider, StackedOrder msg, model) {
-    provider.receive(AddTestValue(1));
-    provider.receive(TimesValue(2));
-    provider.receive(AddTestValue(1));
-    provider.receive(TimesValue(2));
-    provider.receive(AddTestValue(1));
+  handle(model) {
+    TestModelProvider.send(AddTestValue(1));
+    TestModelProvider.send(TimesValue(2));
+    TestModelProvider.send(AddTestValue(1));
+    TestModelProvider.send(TimesValue(2));
+    TestModelProvider.send(AddTestValue(1));
 
     return model;
   }
 }
 
-class TimesValue extends Message<TestModel, TimesValue> {
+class TimesValue extends Message<TestModel> {
   final int value;
 
   TimesValue(this.value);
 
   @override
-  handle(StateProvider provider, TimesValue msg, model) {
-    int newVal = model.value * msg.value;
+  handle(model) {
+    int newVal = model.value * this.value;
     return model.copyWith(value: newVal);
   }
 }
 
-class AddTestValue extends Message<TestModel, AddTestValue> {
+class AddTestValue extends Message<TestModel> {
   final int value;
 
   AddTestValue(this.value);
 
   @override
-  handle(StateProvider provider, AddTestValue msg, model) {
-    int newVal = model.value + msg.value;
+  handle( model) {
+    int newVal = model.value + this.value;
     return model.copyWith(value: newVal);
   }
 }
 
-class SubstractTestValue extends Message<TestModel, SubstractTestValue> {
+class SubtractTestValue extends Message<TestModel> {
   final int value;
 
-  SubstractTestValue(this.value);
+  SubtractTestValue(this.value);
 
   @override
-  handle(StateProvider provider, SubstractTestValue msg, model) {
-    int newVal = model.value - msg.value;
+  handle(model) {
+    int newVal = model.value - this.value;
     return model.copyWith(value: newVal);
   }
 }
