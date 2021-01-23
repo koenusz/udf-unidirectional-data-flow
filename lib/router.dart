@@ -35,7 +35,7 @@ class Router {
     initialised = true;
   }
 
-  void navigateTo({String routeName}) {
+  void navigateTo(String routeName) {
     logger("navigating to: $routeName");
     _navigatorState.pushNamed(routeName);
   }
@@ -45,7 +45,8 @@ class Router {
     _navigatorState.pop();
   }
 
-  /// Remove all from the navigation stack and go to route.
+  /// Remove all from the navigation stack and go to route. this method empties out the navigation stack and puts
+  /// the "routedTo" view on top. This feature is especially useful for instance for logging out.
   void removeAllAndNavigateTo(String routeName) {
     _navigatorState.pushNamedAndRemoveUntil(routeName, (Route<dynamic> route) => false);
   }

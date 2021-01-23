@@ -61,3 +61,8 @@
 ## [0.0.12] - 23-01-2021
 
 * added navigation method tot he stateprovider to standardise the way navigation is done.
+
+## [0.0.13] - 23-01-2021
+
+* added navigation back method to the stateprovider.
+* removeAllAndNavigateTo added for logging out.
