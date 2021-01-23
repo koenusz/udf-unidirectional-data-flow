@@ -4,6 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
+import 'package:udf/router.dart';
+
+import 'message.dart';
+
 abstract class StateProvider<T> with ChangeNotifier {
   logger(String msg) {
     developer.log(msg, name: this.runtimeType.toString() + "::" + this.rand.toString());
@@ -20,6 +24,10 @@ abstract class StateProvider<T> with ChangeNotifier {
   static StateProvider providerOf(Type type) =>
       _instances[type] ??
       (throw "No instance of type $type, make sure you create the StateProvider object before calling this method");
+
+  navigateTo(String routeName) {
+    this.receive(NavigateToMessage<T>(routeName));
+  }
 
   bool _initialised = false;
 
@@ -89,6 +97,4 @@ abstract class StateProvider<T> with ChangeNotifier {
   }
 }
 
-abstract class Message<T> {
-  T handle(T model);
-}
+

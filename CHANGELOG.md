@@ -57,3 +57,7 @@
 * updated sendWhenCompletes with error message option
 * simplified/improved typing of the message
 * updated the docs to reflect this simplification.
+
+## [0.0.12] - 23-01-2021
+
+* added navigation method tot he stateprovider to standardise the way navigation is done.
