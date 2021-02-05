@@ -44,7 +44,7 @@
 
 ## [0.0.9] - 02-01-2021
 
-* removed viewNotifier.of - The viewnotifier needs to be used otherwise the screen does not get
+* removed viewNotifier.of - The ViewNotifier needs to be used otherwise the screen does not get
     redrawn.
 
 ## [0.0.10] - 12-01-2021
@@ -60,9 +60,13 @@
 
 ## [0.0.12] - 23-01-2021
 
-* added navigation method tot he stateprovider to standardise the way navigation is done.
+* added navigation method tot he StateProvider to standardise the way navigation is done.
 
 ## [0.0.13] - 23-01-2021
 
-* added navigation back method to the stateprovider.
+* added navigation back method to the StateProvider.
 * removeAllAndNavigateTo added for logging out.
+
+## [0.0.14] - 5-02-2021
+
+* bug fix StateProvider.sendWhenCompletes: when the onFailure argument is null do not try to send a message.

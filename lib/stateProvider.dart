@@ -66,7 +66,7 @@ abstract class StateProvider<T> with ChangeNotifier {
     handle(input) => this.receive(onSuccess(input));
     future.then(handle).catchError((error) => {
           logError(logMsg ?? "future failed", error),
-          this.receive(onFailure()),
+          if (onFailure != null) {this.receive(onFailure())},
         });
     return this;
   }
@@ -96,5 +96,3 @@ abstract class StateProvider<T> with ChangeNotifier {
     }
   }
 }
-
-
