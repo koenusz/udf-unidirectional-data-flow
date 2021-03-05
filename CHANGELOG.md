@@ -76,6 +76,6 @@
 * upgrade to dart 2.12, use null safety.
 * removed the initMsg, model is initialised through the StateProvider constructor.
 
-## [0.0.15] - 5-03-2021
+## [0.0.16] - 5-03-2021
 
 * key is not needed in ViewNotifier
