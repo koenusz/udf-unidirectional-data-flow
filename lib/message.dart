@@ -1,4 +1,4 @@
-import 'package:udf/udfrouter.dart';
+import 'package:udf/udfRouter.dart';
 
 abstract class Message<T> {
   T handle(T model);

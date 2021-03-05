@@ -94,3 +94,8 @@
 ## [0.0.19] - 5-03-2021
 
 * changed name sendWhenCompletes => receiveWhenCompletes for consistency.
+
+
+## [0.0.20] - 5-03-2021
+
+* removed unnecessary cast

@@ -1,9 +1,7 @@
 import 'dart:collection';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
-
 import 'message.dart';
 
 abstract class StateProvider<T> with ChangeNotifier {

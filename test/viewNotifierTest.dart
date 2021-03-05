@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:udf/stateProvider.dart';
 import 'package:udf/viewNotifier.dart';
-
 import 'stateProviderTest.dart';
 
 void main() {
@@ -25,9 +24,7 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Test()
-    );
+    return MaterialApp(home: Test());
   }
 }
 
