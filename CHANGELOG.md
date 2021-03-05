@@ -79,3 +79,7 @@
 ## [0.0.16] - 5-03-2021
 
 * key is not needed in ViewNotifier
+
+## [0.0.17] - 5-03-2021
+
+* StateProvider, providerOf needs to be more strict with its typing

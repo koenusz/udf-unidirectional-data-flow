@@ -7,7 +7,6 @@ class ViewNotifier<T extends StateProvider> extends InheritedNotifier<StateProvi
     Widget child,
   ) : super(notifier: stateProvider, child: child);
 
-  static T of<T extends StateProvider>(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ViewNotifier<T>>()?.notifier as T;
-  }
+  static T of<T extends StateProvider>(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ViewNotifier<T>>()?.notifier as T;
 }
