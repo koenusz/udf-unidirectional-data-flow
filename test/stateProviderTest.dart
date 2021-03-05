@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:udf/message.dart';
+import 'package:udf/model.dart';
 import 'package:udf/stateProvider.dart';
 
 void main() {
@@ -42,7 +43,7 @@ class TestModelProvider extends StateProvider<TestModel> {
   factory TestModelProvider.init() => TestModelProvider(TestModel(5));
 }
 
-class TestModel {
+class TestModel extends Model<TestModel> {
   final int value;
 
   TestModel(this.value);

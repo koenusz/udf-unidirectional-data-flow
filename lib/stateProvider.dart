@@ -19,8 +19,8 @@ abstract class StateProvider<T> with ChangeNotifier {
 
   static Map<Type, StateProvider> _instances = {};
 
-  static StateProvider<T> providerOf<T>(Type type) =>
-      _instances[type] as StateProvider<T>? ??
+  static T providerOf<T>(Type type) =>
+      _instances[type] as T? ??
       (throw "No instance of type $type, make sure you create the StateProvider object before calling this method");
 
   navigateTo(String routeName) {
