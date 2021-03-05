@@ -90,3 +90,7 @@
 * StateProvider, providerOf needs to be more strict with its typing
 * Refactored the VIewNotifier to provide the model.
 * added test for the viewNotifier
+
+## [0.0.19] - 5-03-2021
+
+* changed name sendWhenCompletes => receiveWhenCompletes for consistency.

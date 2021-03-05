@@ -47,7 +47,7 @@ abstract class StateProvider<T> with ChangeNotifier {
     return this;
   }
 
-  StateProvider<T> sendWhenCompletes<FT>(Future<FT> future, Message<T> Function(FT) onSuccess,
+  StateProvider<T> receiveWhenCompletes<FT>(Future<FT> future, Message<T> Function(FT) onSuccess,
       {String? logMsg, Message<T> Function()? onFailure}) {
     handle(input) => this.receive(onSuccess(input));
     future.then(handle).catchError((error) {
