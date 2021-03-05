@@ -3,16 +3,15 @@ import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class Router {
+class UDFRouter {
   logger(String msg) {
     developer.log(msg, name: 'router');
   }
 
-  Router._internal();
+  UDFRouter._internal();
 
-  NavigatorState _navigatorState;
-  static Router _instance;
-  bool initialised = false;
+  late final NavigatorState _navigatorState;
+  static UDFRouter _instance = UDFRouter._internal();
 
   static mock(routerMock) {
     if (kDebugMode) {
@@ -20,19 +19,12 @@ class Router {
     }
   }
 
-  factory Router() {
-    if (_instance == null) {
-      _instance = Router._internal();
-    }
+  factory UDFRouter() {
     return _instance;
   }
 
   init(NavigatorState navigatorState) {
-    if (initialised) {
-      return null;
-    }
     _navigatorState = navigatorState;
-    initialised = true;
   }
 
   void navigateTo(String routeName) {
@@ -44,6 +36,7 @@ class Router {
     logger("popping of");
     _navigatorState.pop();
   }
+
 
   /// Remove all from the navigation stack and go to route. this method empties out the navigation stack and puts
   /// the "routedTo" view on top. This feature is especially useful for instance for logging out.

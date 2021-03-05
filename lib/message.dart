@@ -1,4 +1,4 @@
-import 'package:udf/router.dart';
+import 'package:udf/udfrouter.dart';
 
 abstract class Message<T> {
   T handle(T model);
@@ -11,7 +11,7 @@ class NavigateToMessage<T> extends Message<T> {
 
   @override
   handle(model) {
-    Router().navigateTo(_routeName);
+    UDFRouter().navigateTo(_routeName);
     return model;
   }
 
@@ -24,7 +24,7 @@ class NavigateToMessage<T> extends Message<T> {
 class NavigateBackMessage<T> extends Message<T> {
   @override
   handle(model) {
-    Router().back();
+    UDFRouter().back();
     return model;
   }
 }
@@ -36,7 +36,7 @@ class RemoveAllAndNavigateToMessage<T> extends Message<T> {
 
   @override
   handle(model) {
-    Router().removeAllAndNavigateTo(_routeName);
+    UDFRouter().removeAllAndNavigateTo(_routeName);
     return model;
   }
 

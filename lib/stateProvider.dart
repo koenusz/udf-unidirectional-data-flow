@@ -4,8 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
-import 'package:udf/router.dart';
-
 import 'message.dart';
 
 abstract class StateProvider<T> with ChangeNotifier {
@@ -29,8 +27,6 @@ abstract class StateProvider<T> with ChangeNotifier {
     this.receive(NavigateToMessage<T>(routeName));
   }
 
-  bool _initialised = false;
-
   bool _resolving = false;
 
   T _model;
@@ -40,18 +36,8 @@ abstract class StateProvider<T> with ChangeNotifier {
   final Queue<Message> _messages = Queue();
 
   @protected
-  StateProvider(T model) {
+  StateProvider(this._model) {
     _instances[this.runtimeType] = this;
-    _model = model;
-  }
-
-  StateProvider<T> initMsg(Message<T> msg) {
-    if (!_initialised) {
-      _initialised = true;
-      return this.receive(msg);
-    } else {
-      return this;
-    }
   }
 
   StateProvider<T> receive(Message<T> msg) {
@@ -62,12 +48,14 @@ abstract class StateProvider<T> with ChangeNotifier {
   }
 
   StateProvider<T> sendWhenCompletes<FT>(Future<FT> future, Message<T> Function(FT) onSuccess,
-      {String logMsg, Message<T> Function() onFailure}) {
+      {String? logMsg, Message<T> Function()? onFailure}) {
     handle(input) => this.receive(onSuccess(input));
-    future.then(handle).catchError((error) => {
-          logError(logMsg ?? "future failed", error),
-          if (onFailure != null) {this.receive(onFailure())},
-        });
+    future.then(handle).catchError((error) {
+      logError(logMsg ?? "future failed", error);
+      if (onFailure != null) {
+        this.receive(onFailure());
+      }
+    });
     return this;
   }
 

@@ -1,10 +1,10 @@
 name: udf
 description: A package to implement a unidirectional data flow in your app.
-version: 0.0.14
+version: 0.0.15
 homepage: https://github.com/koenusz/udf
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:

@@ -70,3 +70,8 @@
 ## [0.0.14] - 5-02-2021
 
 * bug fix StateProvider.sendWhenCompletes: when the onFailure argument is null do not try to send a message.
+
+## [0.0.15] - 5-03-2021
+
+* upgrade to dart 2.12, use null safety.
+* removed the initMsg, model is initialised through the StateProvider constructor.

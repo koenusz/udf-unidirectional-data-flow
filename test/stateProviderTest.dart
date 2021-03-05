@@ -39,17 +39,17 @@ class TestModelProvider extends StateProvider<TestModel> {
 
   static send(Message msg) => StateProvider.providerOf(TestModelProvider).receive(msg);
 
-  factory TestModelProvider.init() => TestModelProvider(TestModel(value: 5));
+  factory TestModelProvider.init() => TestModelProvider(TestModel(5));
 }
 
 class TestModel {
   final int value;
 
-  TestModel({this.value});
+  TestModel(this.value);
 
-  TestModel copyWith({int value}) {
+  TestModel copyWith({int? value}) {
     return TestModel(
-      value: value ?? this.value,
+      value ?? this.value,
     );
   }
 }
@@ -102,7 +102,7 @@ class AddTestValue extends Message<TestModel> {
   AddTestValue(this.value);
 
   @override
-  handle( model) {
+  handle(model) {
     int newVal = model.value + this.value;
     return model.copyWith(value: newVal);
   }
