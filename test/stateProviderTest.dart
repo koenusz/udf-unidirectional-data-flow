@@ -1,36 +1,81 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:udf/message.dart';
 import 'package:udf/model.dart';
 import 'package:udf/stateProvider.dart';
+import 'package:udf/udfRouter.dart';
 
 void main() {
   test("handle messages", () async {
-    var provider = TestModelProvider.init();
+    TestModelProvider.init();
 
-    provider.receive(AddTestValue(3));
-    var model = provider.model();
+    TestModelProvider.send(AddTestValue(3));
+    var model = TestModelProvider.model();
     expect(model.value, equals(8));
 
-    provider.receive(SubtractTestValue(2));
-    model = provider.model();
+    TestModelProvider.send(SubtractTestValue(2));
+    model = TestModelProvider.model();
     expect(model.value, equals(6));
   });
 
   test("handle stacked messages ", () async {
-    var provider = TestModelProvider.init();
+    TestModelProvider.init();
 
-    provider.receive(Stacked());
-    var model = provider.model();
+    TestModelProvider.send(Stacked());
+    var model = TestModelProvider.model();
     expect(model.value, equals(10));
   });
 
-  test("handle stacked in the right order ", () async {
-    var provider = TestModelProvider.init();
+  Future<int> delayedInt(int value, int duration) async {
+    await Future.delayed(Duration(seconds: duration));
+    return value;
+  }
 
-    provider.receive(StackedOrder());
-    var model = provider.model();
+  test("sendWhenCompletes future returns success", () async {
+    TestModelProvider.init();
+    TestModelProvider.sendWhenCompletes<int>(
+      delayedInt(1, 0),
+      (value) => SubtractTestValue(value),
+    );
+    await Future.delayed(Duration(seconds: 1));
+    var model = TestModelProvider.model();
+    expect(model.value, equals(4));
+  });
+
+  Future<int> delayedError(int value, int duration) async {
+    print('Delay error for Future $value');
+    throw Exception('Logout failed: user ID is invalid');
+  }
+
+  test("sendWhenCompletes future returns error", () async {
+    TestModelProvider.init();
+    TestModelProvider.sendWhenCompletes<dynamic>(
+      delayedError(1, 0),
+      (value) => SubtractTestValue(value),
+      logMsg: "fail",
+      onFailure: () => SubtractTestValue(2),
+    );
+    await Future.delayed(Duration(seconds: 1));
+    var model = TestModelProvider.model();
+    expect(model.value, equals(3));
+  });
+
+  test("handle stacked in the right order ", () async {
+    TestModelProvider.init();
+
+    TestModelProvider.send(StackedOrder());
+    var model = TestModelProvider.model();
     expect(model.value, equals(27));
+  });
+
+  test("test navigation ", () async {
+    TestModelProvider.init();
+
+    RouterMock routerMock = RouterMock.mockRouter();
+
+    TestModelProvider.navigate();
+    verify(routerMock.navigateTo("routeName")).called(1);
   });
 }
 
@@ -38,7 +83,24 @@ class TestModelProvider extends StateProvider<TestModel> {
   @protected
   TestModelProvider(TestModel model) : super(model);
 
-  static send(Message msg) => StateProvider.providerOf(TestModelProvider).receive(msg);
+  static send(Message<TestModel> msg) => StateProvider.send<TestModel, TestModelProvider>(msg);
+
+  static sendWhenCompletes<FT>(
+    Future<FT> future,
+    Message<TestModel> Function(FT p1) onSuccess, {
+    String? logMsg,
+    Message<TestModel> Function()? onFailure,
+  }) =>
+      StateProvider.sendWhenCompletes<FT, TestModel, TestModelProvider>(
+        future,
+        onSuccess,
+        logMsg: logMsg,
+        onFailure: onFailure,
+      );
+
+  static navigate() => StateProvider.navigateTo<TestModelProvider>("routeName");
+
+  static TestModel model() => StateProvider.model<TestModel, TestModelProvider>();
 
   factory TestModelProvider.init() => TestModelProvider(TestModel(5));
 }
@@ -118,5 +180,13 @@ class SubtractTestValue extends Message<TestModel> {
   handle(model) {
     int newVal = model.value - this.value;
     return model.copyWith(value: newVal);
+  }
+}
+
+class RouterMock extends Mock implements UDFRouter {
+  static RouterMock mockRouter() {
+    RouterMock mock = RouterMock();
+    UDFRouter.mock(mock);
+    return mock;
   }
 }

@@ -84,7 +84,6 @@
 
 * StateProvider, providerOf needs to be more strict with its typing
 
-
 ## [0.0.18] - 5-03-2021
 
 * StateProvider, providerOf needs to be more strict with its typing
@@ -95,7 +94,9 @@
 
 * changed name sendWhenCompletes => receiveWhenCompletes for consistency.
 
-
 ## [0.0.20] - 5-03-2021
 
 * removed unnecessary cast
+* added a test for navigate
+* refactored the static functions so the implementations require
+* added test for sendWhenCompletes

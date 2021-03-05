@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +40,9 @@ class UDFRouter {
   /// Remove all from the navigation stack and go to route. this method empties out the navigation stack and puts
   /// the "routedTo" view on top. This feature is especially useful for instance for logging out.
   void removeAllAndNavigateTo(String routeName) {
-    _navigatorState.pushNamedAndRemoveUntil(routeName, (Route<dynamic> route) => false);
+    _navigatorState.pushNamedAndRemoveUntil(
+      routeName,
+      (Route<dynamic> route) => false,
+    );
   }
 }
