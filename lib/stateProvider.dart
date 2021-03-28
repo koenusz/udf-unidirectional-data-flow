@@ -130,6 +130,11 @@ class ViewNotifier<T extends StateProvider> extends InheritedNotifier<StateProvi
     Widget child,
   ) : super(notifier: stateProvider, child: child);
 
-  static M model<M extends Model<M>, T extends StateProvider<M>>(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ViewNotifier<T>>()!.notifier!._internalModel();
+  static M model<M extends Model<M>, T extends StateProvider<M>>(BuildContext context) {
+   if(T == null) {
+     throw "Provider Type not specified, make sure the method model is called with the appropriate types"
+   }
+    context.dependOnInheritedWidgetOfExactType<ViewNotifier<T>>()!.notifier!
+        ._internalModel();
+  }
 }

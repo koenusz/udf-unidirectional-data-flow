@@ -1,3 +1,5 @@
+# Changelog
+
 ## [0.0.1] - 15-08-2020
 
 * Model class to hold state
@@ -100,3 +102,7 @@
 * added a test for navigate
 * refactored the static functions so the implementations require
 * added test for sendWhenCompletes
+
+## [0.0.21] - 5-03-2021
+
+* improved error messages of viewnotifier
