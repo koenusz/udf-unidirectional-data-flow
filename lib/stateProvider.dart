@@ -37,15 +37,18 @@ abstract class StateProvider<M> with ChangeNotifier {
         (throw "No instance of type $type, make sure you create the StateProvider object before calling this method");
   }
 
-  static M model<M extends Model<M>, T extends StateProvider<M>>() => providerOf<T>(T)._model;
+  static M model<M extends Model<M>, T extends StateProvider<M>>() =>
+      providerOf<T>(T)._model;
 
-  static navigateTo<T extends StateProvider>(String routeName) => providerOf<T>(T)._navigateTo(routeName);
+  static navigateTo<T extends StateProvider>(String routeName) =>
+      providerOf<T>(T)._navigateTo(routeName);
 
   _navigateTo(String routeName) {
     this._receive(NavigateToMessage<M>(routeName));
   }
 
-  static StateProvider<M> send<M extends Model<M>, T extends StateProvider<M>>(Message<M> msg) =>
+  static StateProvider<M> send<M extends Model<M>, T extends StateProvider<M>>(
+          Message<M> msg) =>
       providerOf<T>(T)._receive(msg);
 
   StateProvider<M> _receive(Message<M> msg) {
@@ -74,11 +77,12 @@ abstract class StateProvider<M> with ChangeNotifier {
     String? logMsg,
     Message<M> Function()? onFailure,
   }) {
-    var x = providerOf<T>(T).receiveWhenCompletes(future, onSuccess, logMsg: logMsg, onFailure: onFailure);
+    var x = providerOf<T>(T)._receiveWhenCompletes(future, onSuccess,
+        logMsg: logMsg, onFailure: onFailure);
     return x;
   }
 
-  StateProvider<M> receiveWhenCompletes<FT>(
+  StateProvider<M> _receiveWhenCompletes<FT>(
     Future<FT> future,
     Message<M> Function(FT) onSuccess, {
     String? logMsg,
@@ -91,6 +95,8 @@ abstract class StateProvider<M> with ChangeNotifier {
         logError(logMsg ?? "future failed", error);
         if (onFailure != null) {
           this._receive(onFailure());
+        } else {
+          throw error;
         }
         return this;
       },
@@ -124,14 +130,18 @@ abstract class StateProvider<M> with ChangeNotifier {
   }
 }
 
-class ViewNotifier<T extends StateProvider> extends InheritedNotifier<StateProvider> {
+class ViewNotifier<T extends StateProvider>
+    extends InheritedNotifier<StateProvider> {
   ViewNotifier(
     T stateProvider,
     Widget child,
   ) : super(notifier: stateProvider, child: child);
 
-  static M model<M extends Model<M>, T extends StateProvider<M>>(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ViewNotifier<T>>()!.notifier!
+  static M model<M extends Model<M>, T extends StateProvider<M>>(
+      BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<ViewNotifier<T>>()!
+        .notifier!
         ._internalModel();
   }
 }

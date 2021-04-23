@@ -111,3 +111,7 @@
 
 * improved init udfrouter to have a more consistent internal state for debugging
 * the compiler should enforce the subtyping in the stateprovider
+
+## [0.0.23] - 23-04-2021
+
+* throw the error when the future of sendwhencompletes fails and it is not handled.
