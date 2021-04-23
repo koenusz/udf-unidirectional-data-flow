@@ -106,3 +106,8 @@
 ## [0.0.21] - 5-03-2021
 
 * improved error messages of viewnotifier
+
+## [0.0.22] - 5-03-2021
+
+* improved init udfrouter to have a more consistent internal state for debugging
+* the compiler should enforce the subtyping in the stateprovider

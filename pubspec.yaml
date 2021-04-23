@@ -1,6 +1,7 @@
 name: udf
 description: A package to implement a unidirectional data flow in your app.
-version: 0.0.21
+version: 0.0.22
+author: Koen van Dijk
 homepage: https://github.com/koenusz/udf
 
 environment:

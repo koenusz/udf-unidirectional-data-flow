@@ -8,10 +8,10 @@ class UDFRouter {
     developer.log(msg, name: 'router');
   }
 
-  UDFRouter._internal();
+  UDFRouter._internal(this._navigatorState);
 
-  late final NavigatorState _navigatorState;
-  static UDFRouter _instance = UDFRouter._internal();
+  final NavigatorState _navigatorState;
+  static late UDFRouter _instance;
 
   static mock(routerMock) {
     if (kDebugMode) {
@@ -19,12 +19,13 @@ class UDFRouter {
     }
   }
 
-  factory UDFRouter() {
+  factory UDFRouter.init(NavigatorState navigatorState) {
+    _instance = UDFRouter._internal(navigatorState);
     return _instance;
   }
 
-  init(NavigatorState navigatorState) {
-    _navigatorState = navigatorState;
+  factory UDFRouter() {
+    return _instance;
   }
 
   void navigateTo(String routeName) {
