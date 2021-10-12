@@ -115,3 +115,8 @@
 ## [0.0.23] - 23-04-2021
 
 * throw the error when the future of sendwhencompletes fails and it is not handled.
+
+## [0.0.24] - 12-10-2021
+
+* When a Future.error is filled with a string it is now forwarded into the onError function of the senWhenFinishes method.
+* Added intellij/android studio templates to the repository to generate boilerplate code. templates are called udf and msg.
