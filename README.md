@@ -21,6 +21,9 @@ example:
     }
 ```
 
+##Intellij templates
+`git clone git@github.com:koenusz/udf-intellij-plugin.git`
+
 ## Router
 The router allows you to navigate between screens. All the views require a routeName string to
 identify them for the router. To enable the routing functionality you need to place a widget in the
@@ -297,3 +300,4 @@ example:
       }
     }
 ```
+

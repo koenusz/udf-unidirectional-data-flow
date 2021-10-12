@@ -53,8 +53,8 @@ void main() {
     TestModelProvider.sendWhenCompletes<dynamic>(
       delayedError(1, 0),
       (value) => SubtractTestValue(value),
-      logMsg: "fail",
-      onFailure: () => SubtractTestValue(2),
+      errMsg: "fail",
+      onFailure: (_) => SubtractTestValue(2),
     );
     await Future.delayed(Duration(seconds: 1));
     var model = TestModelProvider.model();
@@ -88,13 +88,13 @@ class TestModelProvider extends StateProvider<TestModel> {
   static sendWhenCompletes<FT>(
     Future<FT> future,
     Message<TestModel> Function(FT p1) onSuccess, {
-    String? logMsg,
-    Message<TestModel> Function()? onFailure,
+    String? errMsg,
+    Message<TestModel> Function(String? msg)? onFailure,
   }) =>
       StateProvider.sendWhenCompletes<FT, TestModel, TestModelProvider>(
         future,
         onSuccess,
-        logMsg: logMsg,
+        errMsg: errMsg,
         onFailure: onFailure,
       );
 

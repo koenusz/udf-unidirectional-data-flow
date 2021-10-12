@@ -74,27 +74,34 @@ abstract class StateProvider<M> with ChangeNotifier {
   static sendWhenCompletes<FT, M extends Model<M>, T extends StateProvider<M>>(
     Future<FT> future,
     Message<M> Function(FT p1) onSuccess, {
-    String? logMsg,
-    Message<M> Function()? onFailure,
+    String? errMsg,
+    Message<M> Function(String? msg)? onFailure,
   }) {
     var x = providerOf<T>(T)._receiveWhenCompletes(future, onSuccess,
-        logMsg: logMsg, onFailure: onFailure);
+        errMsg: errMsg, onFailure: onFailure);
     return x;
   }
 
   StateProvider<M> _receiveWhenCompletes<FT>(
     Future<FT> future,
     Message<M> Function(FT) onSuccess, {
-    String? logMsg,
-    Message<M> Function()? onFailure,
+    String? errMsg,
+    Message<M> Function(String? msg)? onFailure,
   }) {
     handle(input) => this._receive(onSuccess(input));
 
     future.then(handle).catchError(
       (error) {
-        logError(logMsg ?? "future failed", error);
+        String msg = error.runtimeType == String
+            ? error
+            : errMsg ??
+                "there was no error response, implement errMsg to provide a default error message";
+
+        logError(
+            errMsg ?? "future failed, implement onFailure to handle the error",
+            error);
         if (onFailure != null) {
-          this._receive(onFailure());
+          this._receive(onFailure(msg));
         } else {
           throw error;
         }
@@ -127,6 +134,11 @@ abstract class StateProvider<M> with ChangeNotifier {
     } catch (e) {
       logError("handling error", e);
     }
+  }
+
+  @mustCallSuper
+  void dispose() {
+    super.dispose();
   }
 }
 
