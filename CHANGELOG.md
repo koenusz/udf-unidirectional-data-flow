@@ -120,3 +120,7 @@
 
 * When a Future.error is filled with a string it is now forwarded into the onError function of the senWhenFinishes method.
 * Added intellij/android studio templates to the repository to generate boilerplate code. templates are called udf and msg.
+
+## [0.0.25] - 13-10-2021
+
+* fixed a bug in the templates
