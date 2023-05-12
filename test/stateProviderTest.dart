@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:udf/message.dart';
 import 'package:udf/model.dart';
 import 'package:udf/stateProvider.dart';
 import 'package:udf/udfRouter.dart';
+import 'package:mockito/mockito.dart';
 
 void main() {
   test("handle messages", () async {

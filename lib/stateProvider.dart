@@ -66,7 +66,6 @@ abstract class StateProvider<M> with ChangeNotifier {
 
   final Queue<Message> _messages = Queue();
 
-  @protected
   StateProvider(this._model) {
     _instances[this.runtimeType] = this;
   }
@@ -126,17 +125,17 @@ abstract class StateProvider<M> with ChangeNotifier {
 
   void _resolveMessage() {
     var msgToResolve = _messages.first;
-    logger("resolving: $msgToResolve");
+    // logger("resolving: $msgToResolve");
     _messages.removeFirst();
     try {
       _model = msgToResolve.handle(_model);
-      logger("handling done");
+      // logger("handling done");
     } catch (e) {
       logError("handling error", e);
     }
   }
 
-  @mustCallSuper
+
   void dispose() {
     super.dispose();
   }
