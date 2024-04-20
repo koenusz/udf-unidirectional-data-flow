@@ -124,3 +124,10 @@
 ## [0.0.25] - 13-10-2021
 
 * fixed a bug in the templates
+
+## [0.0.26] - 12-05-2023
+
+* updated to dart 3
+
+## [0.0.27] - 20-4-2024
+* Only log an error about an absent onFailure when it is actually absent.

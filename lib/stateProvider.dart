@@ -37,18 +37,15 @@ abstract class StateProvider<M> with ChangeNotifier {
         (throw "No instance of type $type, make sure you create the StateProvider object before calling this method");
   }
 
-  static M model<M extends Model<M>, T extends StateProvider<M>>() =>
-      providerOf<T>(T)._model;
+  static M model<M extends Model<M>, T extends StateProvider<M>>() => providerOf<T>(T)._model;
 
-  static navigateTo<T extends StateProvider>(String routeName) =>
-      providerOf<T>(T)._navigateTo(routeName);
+  static navigateTo<T extends StateProvider>(String routeName) => providerOf<T>(T)._navigateTo(routeName);
 
   _navigateTo(String routeName) {
     this._receive(NavigateToMessage<M>(routeName));
   }
 
-  static StateProvider<M> send<M extends Model<M>, T extends StateProvider<M>>(
-          Message<M> msg) =>
+  static StateProvider<M> send<M extends Model<M>, T extends StateProvider<M>>(Message<M> msg) =>
       providerOf<T>(T)._receive(msg);
 
   StateProvider<M> _receive(Message<M> msg) {
@@ -76,8 +73,12 @@ abstract class StateProvider<M> with ChangeNotifier {
     String? errMsg,
     Message<M> Function(String? msg)? onFailure,
   }) {
-    var x = providerOf<T>(T)._receiveWhenCompletes(future, onSuccess,
-        errMsg: errMsg, onFailure: onFailure);
+    var x = providerOf<T>(T)._receiveWhenCompletes(
+      future,
+      onSuccess,
+      errMsg: errMsg,
+      onFailure: onFailure,
+    );
     return x;
   }
 
@@ -93,15 +94,12 @@ abstract class StateProvider<M> with ChangeNotifier {
       (error) {
         String msg = error.runtimeType == String
             ? error
-            : errMsg ??
-                "there was no error response, implement errMsg to provide a default error message";
+            : errMsg ?? "there was no error response, implement errMsg to provide a default error message";
 
-        logError(
-            errMsg ?? "future failed, implement onFailure to handle the error",
-            error);
         if (onFailure != null) {
           this._receive(onFailure(msg));
         } else {
+          logError(errMsg ?? "future failed, implement onFailure to handle the error", error);
           throw error;
         }
         return this;
@@ -135,24 +133,18 @@ abstract class StateProvider<M> with ChangeNotifier {
     }
   }
 
-
   void dispose() {
     super.dispose();
   }
 }
 
-class ViewNotifier<T extends StateProvider>
-    extends InheritedNotifier<StateProvider> {
+class ViewNotifier<T extends StateProvider> extends InheritedNotifier<StateProvider> {
   ViewNotifier(
     T stateProvider,
     Widget child,
   ) : super(notifier: stateProvider, child: child);
 
-  static M model<M extends Model<M>, T extends StateProvider<M>>(
-      BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<ViewNotifier<T>>()!
-        .notifier!
-        ._internalModel();
+  static M model<M extends Model<M>, T extends StateProvider<M>>(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<ViewNotifier<T>>()!.notifier!._internalModel();
   }
 }
