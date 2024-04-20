@@ -131,3 +131,4 @@
 
 ## [0.0.27] - 20-4-2024
 * Only log an error about an absent onFailure when it is actually absent.
+* Added a stacktrace to the error logger to make debugging failed futures easier

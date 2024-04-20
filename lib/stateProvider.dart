@@ -15,12 +15,9 @@ abstract class StateProvider<M> with ChangeNotifier {
     );
   }
 
-  logError(String msg, Object error) {
-    developer.log(
-      msg,
-      name: this.runtimeType.toString() + "::" + this.rand.toString(),
-      error: error,
-    );
+  logError(String msg, Object error, {StackTrace? stacktrace}) {
+    developer.log(msg,
+        name: this.runtimeType.toString() + "::" + this.rand.toString(), error: error, stackTrace: stacktrace);
   }
 
   final rand = Random().nextInt(10000);
@@ -91,7 +88,7 @@ abstract class StateProvider<M> with ChangeNotifier {
     handle(input) => this._receive(onSuccess(input));
 
     future.then(handle).catchError(
-      (error) {
+      (error, sTrace) {
         String msg = error.runtimeType == String
             ? error
             : errMsg ?? "there was no error response, implement errMsg to provide a default error message";
@@ -99,7 +96,7 @@ abstract class StateProvider<M> with ChangeNotifier {
         if (onFailure != null) {
           this._receive(onFailure(msg));
         } else {
-          logError(errMsg ?? "future failed, implement onFailure to handle the error", error);
+          logError(errMsg ?? "future failed, implement onFailure to handle the error", error, stacktrace: sTrace);
           throw error;
         }
         return this;
